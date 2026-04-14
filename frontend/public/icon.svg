@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background lingkaran indigo -->
+  <circle cx="50" cy="50" r="50" fill="#4f46e5"/>
+  <!-- Badan mangkuk putih -->
+  <path d="M15 57 Q15 82 50 82 Q85 82 85 57 Z" fill="#ffffff"/>
+  <!-- Bibir mangkuk atas -->
+  <ellipse cx="50" cy="57" rx="35" ry="8" fill="#e0e7ff"/>
+  <!-- Lapisan agar hijau -->
+  <ellipse cx="50" cy="57" rx="28" ry="5" fill="#6ee7b7"/>
+  <!-- Potongan jelly kiri -->
+  <rect x="28" y="44" width="14" height="14" rx="3" fill="#10b981"/>
+  <!-- Potongan jelly tengah -->
+  <rect x="44" y="41" width="14" height="14" rx="3" fill="#34d399"/>
+  <!-- Potongan jelly kanan -->
+  <rect x="60" y="45" width="14" height="14" rx="3" fill="#059669"/>
+  <!-- Kilap jelly kiri -->
+  <rect x="30" y="46" width="4" height="3" rx="1" fill="#a7f3d0" opacity="0.7"/>
+  <!-- Kilap jelly tengah -->
+  <rect x="46" y="43" width="4" height="3" rx="1" fill="#a7f3d0" opacity="0.7"/>
+  <!-- Kilap jelly kanan -->
+  <rect x="62" y="47" width="4" height="3" rx="1" fill="#a7f3d0" opacity="0.7"/>
+  <!-- Teks D.A identitas toko -->
+  <text x="50" y="76" 
+        text-anchor="middle" 
+        font-family="Arial, sans-serif" 
+        font-size="14" 
+        font-weight="700" 
+        fill="#4f46e5">D.A</text>
+  <!-- Dekorasi bintik kiri -->
+  <circle cx="22" cy="30" r="3" fill="#a5b4fc" opacity="0.7"/>
+  <!-- Dekorasi bintik kanan besar -->
+  <circle cx="78" cy="24" r="4" fill="#c7d2fe" opacity="0.6"/>
+  <!-- Dekorasi bintik kanan kecil -->
+  <circle cx="80" cy="37" r="2" fill="#c7d2fe" opacity="0.5"/>
+</svg>

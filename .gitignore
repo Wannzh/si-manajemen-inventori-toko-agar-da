@@ -1,0 +1,27 @@
+# ===========================
+# ROOT PROJECT
+# ===========================
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.code-workspace
+
+# Log
+*.log
+logs/
