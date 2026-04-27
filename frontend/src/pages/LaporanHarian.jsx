@@ -111,6 +111,10 @@ export default function LaporanHarian() {
   };
 
   const handleExportPdf = async () => {
+    if (!laporan || (laporan.transaksiMasuk?.length === 0 && laporan.transaksiKeluar?.length === 0)) {
+      toast.error('Tidak ada data yang dapat diekspor');
+      return;
+    }
     try {
       const params = { tanggal };
       if (selectedPenyuplaiId) params.penyuplaiId = parseInt(selectedPenyuplaiId);
@@ -133,6 +137,10 @@ export default function LaporanHarian() {
   };
 
   const handleExportExcel = async () => {
+    if (!laporan || (laporan.transaksiMasuk?.length === 0 && laporan.transaksiKeluar?.length === 0)) {
+      toast.error('Tidak ada data yang dapat diekspor');
+      return;
+    }
     try {
       const params = { tanggal };
       if (selectedPenyuplaiId) params.penyuplaiId = parseInt(selectedPenyuplaiId);
@@ -337,9 +345,8 @@ export default function LaporanHarian() {
             </div>
           )}
 
-          {/* Action Buttons */}
-          {(laporan.transaksiMasuk.length > 0 || laporan.transaksiKeluar.length > 0) && (
-            <div className="flex flex-wrap justify-end gap-3">
+          {/* Action Buttons — always visible */}
+          <div className="flex flex-wrap justify-end gap-3">
               <button onClick={handleExportPdf}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-colors shadow-lg shadow-red-500/20 text-sm">
                 <Download className="w-4 h-4" />
@@ -365,7 +372,6 @@ export default function LaporanHarian() {
                 </button>
               )}
             </div>
-          )}
         </div>
       )}
     </div>

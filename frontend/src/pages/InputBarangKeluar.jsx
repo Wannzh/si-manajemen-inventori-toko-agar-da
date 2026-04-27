@@ -37,6 +37,9 @@ export default function InputBarangKeluar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.barangId) { toast.error('Barang harus dipilih'); return; }
+    if (!form.jumlah || form.jumlah === '') { toast.error('Jumlah harus lebih dari 0'); return; }
+    if (parseInt(form.jumlah) <= 0) { toast.error('Jumlah harus lebih dari 0'); return; }
     setSubmitting(true);
     try {
       await api.post('/api/transaksi-keluar', {
@@ -89,8 +92,8 @@ export default function InputBarangKeluar() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Barang *</label>
-                <select value={form.barangId} onChange={handleBarangChange} required
+                <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Barang <span className="text-red-500">*</span></label>
+                <select value={form.barangId} onChange={handleBarangChange}
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500">
                   <option value="">-- Pilih Barang --</option>
                   {barang.map((b) => (
@@ -108,9 +111,9 @@ export default function InputBarangKeluar() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Jumlah *</label>
-                <input type="number" min="1" max={selectedBarang?.stok || undefined}
-                  value={form.jumlah} onChange={(e) => setForm({ ...form, jumlah: e.target.value })} required
+                <label className="block text-sm font-medium text-gray-700 mb-1">Jumlah <span className="text-red-500">*</span></label>
+                <input type="number"
+                  value={form.jumlah} onChange={(e) => setForm({ ...form, jumlah: e.target.value })}
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
               </div>
               <div>

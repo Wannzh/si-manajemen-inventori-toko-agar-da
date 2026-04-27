@@ -54,6 +54,11 @@ export default function DataBarang() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.namaBarang?.trim()) { toast.error('Data tidak boleh kosong'); return; }
+    if (form.stok === '' || form.stok === null || form.stok === undefined) { toast.error('Data tidak boleh kosong'); return; }
+    if (form.stokMinimum === '' || form.stokMinimum === null || form.stokMinimum === undefined) { toast.error('Data tidak boleh kosong'); return; }
+    if (!form.satuan?.trim()) { toast.error('Data tidak boleh kosong'); return; }
+    if (!form.kategoriId) { toast.error('Data tidak boleh kosong'); return; }
     const payload = {
       ...form,
       stok: parseInt(form.stok),
@@ -194,30 +199,30 @@ export default function DataBarang() {
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
-                <input type="text" value={form.namaBarang} onChange={(e) => setForm({ ...form, namaBarang: e.target.value })} required
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Barang <span className="text-red-500">*</span></label>
+                <input type="text" value={form.namaBarang} onChange={(e) => setForm({ ...form, namaBarang: e.target.value })}
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Stok</label>
-                  <input type="number" min="0" value={form.stok} onChange={(e) => setForm({ ...form, stok: e.target.value })} required
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Stok <span className="text-red-500">*</span></label>
+                  <input type="number" value={form.stok} onChange={(e) => setForm({ ...form, stok: e.target.value })}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Stok Minimum</label>
-                  <input type="number" min="0" value={form.stokMinimum} onChange={(e) => setForm({ ...form, stokMinimum: e.target.value })} required
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Stok Minimum <span className="text-red-500">*</span></label>
+                  <input type="number" value={form.stokMinimum} onChange={(e) => setForm({ ...form, stokMinimum: e.target.value })}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Satuan</label>
-                  <input type="text" value={form.satuan} onChange={(e) => setForm({ ...form, satuan: e.target.value })} required
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Satuan <span className="text-red-500">*</span></label>
+                  <input type="text" value={form.satuan} onChange={(e) => setForm({ ...form, satuan: e.target.value })}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Kategori <span className="text-red-500">*</span></label>
                   <select value={form.kategoriId} onChange={(e) => setForm({ ...form, kategoriId: e.target.value })}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500">
                     <option value="">-- Pilih --</option>

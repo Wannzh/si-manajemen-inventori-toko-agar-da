@@ -53,6 +53,8 @@ export default function DataPenyuplai() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.namaPenyuplai?.trim()) { toast.error('Data tidak boleh kosong'); return; }
+    if (!form.kontak?.trim()) { toast.error('Data tidak boleh kosong'); return; }
     if (form.kontak && (form.kontak.length < 10 || form.kontak.length > 15)) {
       setKontakError('Kontak harus 10-15 digit angka');
       return;
@@ -170,12 +172,12 @@ export default function DataPenyuplai() {
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Penyuplai</label>
-                <input type="text" value={form.namaPenyuplai} onChange={(e) => setForm({ ...form, namaPenyuplai: e.target.value })} required
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Penyuplai <span className="text-red-500">*</span></label>
+                <input type="text" value={form.namaPenyuplai} onChange={(e) => setForm({ ...form, namaPenyuplai: e.target.value })}
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kontak (No. HP)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kontak (No. HP) <span className="text-red-500">*</span></label>
                 <input type="tel" value={form.kontak} onChange={(e) => handleKontakChange(e.target.value)}
                   placeholder="Contoh: 08123456789" maxLength={15}
                   className={`w-full px-4 py-2.5 bg-gray-50 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 ${

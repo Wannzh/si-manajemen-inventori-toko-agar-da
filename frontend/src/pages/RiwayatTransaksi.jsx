@@ -12,21 +12,26 @@ export default function RiwayatTransaksi() {
     jenis: 'semua',
   });
 
-  useEffect(() => {
-    document.title = 'Toko Agar D.A | Sistem Inventori';
-  }, []);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  const fetchRiwayat = async (params) => {
     setLoading(true);
     try {
-      const res = await api.get('/api/riwayat', { params: filter });
+      const res = await api.get('/api/riwayat', { params: params || filter });
       setData(res.data.data);
     } catch (err) {
       toast.error('Gagal memuat riwayat');
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    document.title = 'Toko Agar D.A | Sistem Inventori';
+    fetchRiwayat();
+  }, []);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    fetchRiwayat(filter);
   };
 
   const formatDate = (dateStr) => {
