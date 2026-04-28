@@ -12,6 +12,7 @@ export default function LaporanHarian() {
   const [laporan, setLaporan] = useState(null);
   const [penyuplaiList, setPenyuplaiList] = useState([]);
   const [selectedPenyuplaiId, setSelectedPenyuplaiId] = useState('');
+  const [filterJenis, setFilterJenis] = useState('SEMUA');
   const [selectedPenyuplai, setSelectedPenyuplai] = useState(null);
 
   useEffect(() => {
@@ -223,6 +224,23 @@ export default function LaporanHarian() {
             </div>
           </div>
 
+          {/* Filter Jenis Toggle */}
+          <div className="flex gap-2">
+            {['SEMUA', 'MASUK', 'KELUAR'].map((jenis) => (
+              <button
+                key={jenis}
+                onClick={() => setFilterJenis(jenis)}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200
+                  ${filterJenis === jenis
+                    ? 'bg-primary-600 text-white border-primary-600 shadow-md shadow-primary-500/20'
+                    : 'bg-white text-gray-600 border-gray-300 hover:border-primary-400 hover:text-primary-600'
+                  }`}
+              >
+                {jenis === 'SEMUA' ? 'Semua' : jenis === 'MASUK' ? 'Barang Masuk' : 'Barang Keluar'}
+              </button>
+            ))}
+          </div>
+
           {/* Rekap Barang */}
           {laporan.rekapBarang?.length > 0 && (
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
@@ -266,7 +284,7 @@ export default function LaporanHarian() {
           )}
 
           {/* Transaksi Masuk */}
-          {laporan.transaksiMasuk.length > 0 && (
+          {(filterJenis === 'SEMUA' || filterJenis === 'MASUK') && laporan.transaksiMasuk.length > 0 && (
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                 <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
@@ -302,7 +320,7 @@ export default function LaporanHarian() {
           )}
 
           {/* Transaksi Keluar */}
-          {laporan.transaksiKeluar.length > 0 && (
+          {(filterJenis === 'SEMUA' || filterJenis === 'KELUAR') && laporan.transaksiKeluar.length > 0 && (
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                 <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
