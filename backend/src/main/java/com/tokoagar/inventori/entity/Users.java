@@ -23,6 +23,14 @@ public class Users {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @Column(nullable = false, length = 20)
+    @Builder.Default
+    private String role = "ADMIN";
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "penyuplai_id")
+    private Penyuplai penyuplai;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

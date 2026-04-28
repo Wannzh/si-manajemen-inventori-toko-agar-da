@@ -10,6 +10,8 @@ import {
   AlertTriangle,
   Loader2,
   TrendingUp,
+  Clock,
+  XCircle,
 } from 'lucide-react';
 
 const statCards = [
@@ -19,6 +21,12 @@ const statCards = [
   { key: 'totalTransaksiMasuk', label: 'Transaksi Masuk', icon: ArrowDownToLine, color: 'from-amber-500 to-amber-600', bg: 'bg-amber-50', text: 'text-amber-600' },
   { key: 'totalTransaksiKeluar', label: 'Transaksi Keluar', icon: ArrowUpFromLine, color: 'from-rose-500 to-rose-600', bg: 'bg-rose-50', text: 'text-rose-600' },
 ];
+
+const formatDate = (dateStr) => {
+  return new Date(dateStr).toLocaleDateString('id-ID', {
+    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+};
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -76,6 +84,96 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
+
+      {/* Pending Approval Section */}
+      {data?.transaksiPending?.length > 0 && (
+        <div className="bg-white rounded-2xl border border-amber-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-amber-100 bg-amber-50/50 flex items-center gap-3">
+            <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+              <Clock className="w-4 h-4 text-amber-600" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-gray-800">⏳ Menunggu Konfirmasi Penyuplai</h3>
+              <p className="text-xs text-gray-500">Transaksi barang masuk yang belum disetujui penyuplai</p>
+            </div>
+            <span className="ml-auto px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
+              {data.transaksiPending.length} transaksi
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-amber-50/30">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Barang</th>
+                  <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Jumlah</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Penyuplai</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Waktu Input</th>
+                  <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {data.transaksiPending.map((item) => (
+                  <tr key={item.id} className="hover:bg-amber-50/30 transition-colors">
+                    <td className="px-6 py-3 text-sm font-medium text-gray-800">{item.namaBarang}</td>
+                    <td className="px-6 py-3 text-center">
+                      <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-bold rounded-full">+{item.jumlah}</span>
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-500">{item.namaPenyuplai || '-'}</td>
+                    <td className="px-6 py-3 text-xs text-gray-500">{formatDate(item.tanggalMasuk)}</td>
+                    <td className="px-6 py-3 text-center">
+                      <span className="px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">Menunggu</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Rejected Section */}
+      {data?.transaksiRejected?.length > 0 && (
+        <div className="bg-white rounded-2xl border border-red-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-red-100 bg-red-50/50 flex items-center gap-3">
+            <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+              <XCircle className="w-4 h-4 text-red-600" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-gray-800">❌ Ditolak Penyuplai</h3>
+              <p className="text-xs text-gray-500">Transaksi yang ditolak — perlu ditindaklanjuti</p>
+            </div>
+            <span className="ml-auto px-2.5 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+              {data.transaksiRejected.length} transaksi
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-red-50/30">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Barang</th>
+                  <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Jumlah</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Penyuplai</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Waktu</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Alasan Penolakan</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {data.transaksiRejected.map((item) => (
+                  <tr key={item.id} className="hover:bg-red-50/30 transition-colors">
+                    <td className="px-6 py-3 text-sm font-medium text-gray-800">{item.namaBarang}</td>
+                    <td className="px-6 py-3 text-center">
+                      <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded-full">+{item.jumlah}</span>
+                    </td>
+                    <td className="px-6 py-3 text-sm text-gray-500">{item.namaPenyuplai || '-'}</td>
+                    <td className="px-6 py-3 text-xs text-gray-500">{formatDate(item.tanggalMasuk)}</td>
+                    <td className="px-6 py-3 text-sm text-red-600 font-medium">{item.catatanReject || '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Low Stock Alert */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">

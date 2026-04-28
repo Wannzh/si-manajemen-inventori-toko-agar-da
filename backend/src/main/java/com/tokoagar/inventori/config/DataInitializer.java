@@ -23,6 +23,7 @@ public class DataInitializer implements CommandLineRunner {
             Users admin = Users.builder()
                     .username("admin")
                     .password(passwordEncoder.encode("admin123"))
+                    .role("ADMIN")
                     .build();
             usersRepository.save(admin);
             System.out.println(">>> Default admin user created (admin / admin123)");

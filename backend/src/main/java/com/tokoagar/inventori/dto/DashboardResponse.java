@@ -15,4 +15,7 @@ public class DashboardResponse {
     private long totalTransaksiMasuk;
     private long totalTransaksiKeluar;
     private List<BarangResponse> barangStokMinimum;
+    private long pendingCount;
+    private List<TransaksiMasukResponse> transaksiPending;
+    private List<TransaksiMasukResponse> transaksiRejected;
 }

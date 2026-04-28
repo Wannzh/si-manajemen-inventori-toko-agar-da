@@ -26,6 +26,13 @@ public class TransaksiMasuk {
     @Column(columnDefinition = "TEXT")
     private String keterangan;
 
+    @Column(nullable = false, length = 20)
+    @Builder.Default
+    private String status = "APPROVED";
+
+    @Column(name = "catatan_reject", columnDefinition = "TEXT")
+    private String catatanReject;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barang_id", nullable = false)
     private Barang barang;

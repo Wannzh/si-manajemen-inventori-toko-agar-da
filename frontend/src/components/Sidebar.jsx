@@ -12,6 +12,7 @@ import {
   LogOut,
   Store,
   X,
+  UserPlus,
 } from 'lucide-react';
 
 const menuItems = [
@@ -23,6 +24,7 @@ const menuItems = [
   { path: '/barang-keluar', label: 'Barang Keluar', icon: ArrowUpFromLine },
   { path: '/riwayat', label: 'Riwayat Transaksi', icon: History },
   { path: '/laporan', label: 'Laporan Harian', icon: FileText },
+  { path: '/akun-penyuplai', label: 'Akun Penyuplai', icon: UserPlus },
 ];
 
 export default function Sidebar({ isOpen, onClose }) {

@@ -35,7 +35,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/register-penyuplai").hasRole("ADMIN")
+                .requestMatchers("/api/penyuplai-approval/**").hasRole("PENYUPLAI")
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )

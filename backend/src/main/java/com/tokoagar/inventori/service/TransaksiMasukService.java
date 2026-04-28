@@ -30,7 +30,19 @@ public class TransaksiMasukService {
     }
 
     public List<TransaksiMasukResponse> getAll() {
-        return transaksiMasukRepository.findAllByOrderByTanggalMasukDesc().stream()
+        return transaksiMasukRepository.findAllIncludingPending().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<TransaksiMasukResponse> getPending() {
+        return transaksiMasukRepository.findByStatus("PENDING").stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<TransaksiMasukResponse> getRejected() {
+        return transaksiMasukRepository.findByStatus("REJECTED").stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
@@ -44,6 +56,7 @@ public class TransaksiMasukService {
         transaksi.setBarang(barang);
         transaksi.setJumlah(request.getJumlah());
         transaksi.setKeterangan(request.getKeterangan());
+        transaksi.setStatus("PENDING");
 
         if (request.getPenyuplaiId() != null) {
             Penyuplai penyuplai = penyuplaiRepository.findById(request.getPenyuplaiId())
@@ -51,12 +64,8 @@ public class TransaksiMasukService {
             transaksi.setPenyuplai(penyuplai);
         }
 
-        // Simpan transaksi
+        // Simpan transaksi — stok TIDAK diupdate (menunggu approval)
         TransaksiMasuk saved = transaksiMasukRepository.save(transaksi);
-
-        // Update stok barang (+)
-        barang.setStok(barang.getStok() + request.getJumlah());
-        barangRepository.save(barang);
 
         return toResponse(saved);
     }
@@ -69,8 +78,11 @@ public class TransaksiMasukService {
                 .keterangan(t.getKeterangan())
                 .barangId(t.getBarang().getId())
                 .namaBarang(t.getBarang().getNamaBarang())
+                .satuan(t.getBarang().getSatuan())
                 .penyuplaiId(t.getPenyuplai() != null ? t.getPenyuplai().getId() : null)
                 .namaPenyuplai(t.getPenyuplai() != null ? t.getPenyuplai().getNamaPenyuplai() : null)
+                .status(t.getStatus())
+                .catatanReject(t.getCatatanReject())
                 .build();
     }
 }

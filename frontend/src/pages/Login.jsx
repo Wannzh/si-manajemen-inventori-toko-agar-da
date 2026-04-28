@@ -22,10 +22,14 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await api.post('/api/auth/login', { username, password });
-      const { token, username: user } = res.data.data;
-      login(token, user);
+      const { token, username: user, role } = res.data.data;
+      login(token, user, role);
       toast.success('Login berhasil!');
-      navigate('/dashboard');
+      if (role === 'PENYUPLAI') {
+        navigate('/penyuplai/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login gagal');
     } finally {

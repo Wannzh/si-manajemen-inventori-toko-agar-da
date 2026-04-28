@@ -81,13 +81,24 @@ public class LaporanService {
                 .map(barangService::toResponse)
                 .collect(Collectors.toList());
 
+        List<TransaksiMasukResponse> pending = transaksiMasukRepository.findByStatus("PENDING").stream()
+                .map(transaksiMasukService::toResponse)
+                .collect(Collectors.toList());
+
+        List<TransaksiMasukResponse> rejected = transaksiMasukRepository.findByStatus("REJECTED").stream()
+                .map(transaksiMasukService::toResponse)
+                .collect(Collectors.toList());
+
         return DashboardResponse.builder()
                 .totalBarang(barangRepository.count())
                 .totalKategori(kategoriRepository.count())
                 .totalPenyuplai(penyuplaiRepository.count())
-                .totalTransaksiMasuk(transaksiMasukRepository.count())
+                .totalTransaksiMasuk(transaksiMasukRepository.countApproved())
                 .totalTransaksiKeluar(transaksiKeluarRepository.count())
                 .barangStokMinimum(stokMinimum)
+                .pendingCount(pending.size())
+                .transaksiPending(pending)
+                .transaksiRejected(rejected)
                 .build();
     }
 

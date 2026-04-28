@@ -2,6 +2,7 @@ package com.tokoagar.inventori.security;
 
 import com.tokoagar.inventori.entity.Users;
 import com.tokoagar.inventori.repository.UsersRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Users user = usersRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User tidak ditemukan: " + username));
 
-        return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
+        return new User(
+                user.getUsername(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+        );
     }
 }

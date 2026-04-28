@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { ArrowDownToLine, Loader2, Send } from 'lucide-react';
+import { ArrowDownToLine, Loader2, Send, Info } from 'lucide-react';
 
 export default function InputBarangMasuk() {
   const [barang, setBarang] = useState([]);
@@ -74,6 +74,12 @@ export default function InputBarangMasuk() {
         <p className="text-sm text-gray-500 mt-1">Catat transaksi barang masuk dan update stok otomatis</p>
       </div>
 
+      {/* Info Banner */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+        <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+        <p className="text-sm text-blue-700">Barang masuk akan menunggu konfirmasi dari penyuplai sebelum stok diperbarui.</p>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Form */}
         <div className="lg:col-span-2">
@@ -138,6 +144,7 @@ export default function InputBarangMasuk() {
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Barang</th>
                     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Jumlah</th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Penyuplai</th>
+                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -149,10 +156,21 @@ export default function InputBarangMasuk() {
                         <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">+{item.jumlah}</span>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500">{item.namaPenyuplai || '-'}</td>
+                      <td className="px-4 py-3 text-center">
+                        {item.status === 'PENDING' && (
+                          <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">Menunggu</span>
+                        )}
+                        {item.status === 'APPROVED' && (
+                          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Disetujui</span>
+                        )}
+                        {item.status === 'REJECTED' && (
+                          <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Ditolak</span>
+                        )}
+                      </td>
                     </tr>
                   ))}
                   {riwayat.length === 0 && (
-                    <tr><td colSpan={4} className="px-6 py-8 text-center text-gray-400 text-sm">Belum ada riwayat</td></tr>
+                    <tr><td colSpan={5} className="px-6 py-8 text-center text-gray-400 text-sm">Belum ada riwayat</td></tr>
                   )}
                 </tbody>
               </table>

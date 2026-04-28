@@ -25,8 +25,18 @@ public class TransaksiMasukController {
         return ResponseEntity.ok(ApiResponse.success(transaksiMasukService.getAll()));
     }
 
+    @GetMapping("/pending")
+    public ResponseEntity<ApiResponse<List<TransaksiMasukResponse>>> getPending() {
+        return ResponseEntity.ok(ApiResponse.success(transaksiMasukService.getPending()));
+    }
+
+    @GetMapping("/rejected")
+    public ResponseEntity<ApiResponse<List<TransaksiMasukResponse>>> getRejected() {
+        return ResponseEntity.ok(ApiResponse.success(transaksiMasukService.getRejected()));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<TransaksiMasukResponse>> create(@Valid @RequestBody TransaksiMasukRequest request) {
-        return ResponseEntity.ok(ApiResponse.success("Barang masuk berhasil dicatat", transaksiMasukService.create(request)));
+        return ResponseEntity.ok(ApiResponse.success("Barang masuk berhasil dicatat (menunggu approval)", transaksiMasukService.create(request)));
     }
 }

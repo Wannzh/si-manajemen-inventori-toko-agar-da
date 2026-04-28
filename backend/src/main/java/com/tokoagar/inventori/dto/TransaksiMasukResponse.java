@@ -15,6 +15,9 @@ public class TransaksiMasukResponse {
     private String keterangan;
     private Long barangId;
     private String namaBarang;
+    private String satuan;
     private Long penyuplaiId;
     private String namaPenyuplai;
+    private String status;
+    private String catatanReject;
 }

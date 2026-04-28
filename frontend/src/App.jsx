@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import PenyuplaiRoute from './components/PenyuplaiRoute';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -12,6 +14,8 @@ import InputBarangMasuk from './pages/InputBarangMasuk';
 import InputBarangKeluar from './pages/InputBarangKeluar';
 import RiwayatTransaksi from './pages/RiwayatTransaksi';
 import LaporanHarian from './pages/LaporanHarian';
+import AkunPenyuplai from './pages/AkunPenyuplai';
+import PenyuplaiDashboard from './pages/PenyuplaiDashboard';
 
 export default function App() {
   return (
@@ -32,12 +36,12 @@ export default function App() {
           {/* Public */}
           <Route path="/" element={<Login />} />
 
-          {/* Protected with Layout */}
+          {/* Admin Protected with Layout */}
           <Route
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Layout />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
@@ -48,7 +52,18 @@ export default function App() {
             <Route path="/barang-keluar" element={<InputBarangKeluar />} />
             <Route path="/riwayat" element={<RiwayatTransaksi />} />
             <Route path="/laporan" element={<LaporanHarian />} />
+            <Route path="/akun-penyuplai" element={<AkunPenyuplai />} />
           </Route>
+
+          {/* Penyuplai Protected */}
+          <Route
+            path="/penyuplai/dashboard"
+            element={
+              <PenyuplaiRoute>
+                <PenyuplaiDashboard />
+              </PenyuplaiRoute>
+            }
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
